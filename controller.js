@@ -1,29 +1,24 @@
-addEventListener("keydown",function (e) {
-
-    keyPressed = e.code;
-    console.log(keyPressed + "pressed");
-    if(keyPressed === 'KeyD'){player.vx = 10};
-    if(keyPressed === 'KeyA' ){player.vx = -10};
-    //if(keyPressed === 'KeyW' ){player.vy = -5};
-    //if(keyPressed === 'KeyS' ){player.vy = 5};
-    if(keyPressed === 'Space' && checkOnGround(player)){
-        console.log("JUMP");
-
-        player.vy -= 20;    
-        this.setTimeout(function(){player.vy += gravity}, 400);   //execute function after 250ms
-       
-
-    };
-    //console.log("Coordinates:" + player.xpos + "and" + player.ypos);
-
-})
-addEventListener("keyup",function (e) {
-
-    keyPressed = e.code;
-    console.log(keyPressed + "removed");
-    if(keyPressed === 'KeyD'){player.vx = 0};
-    if(keyPressed === 'KeyA'){player.vx = 0};
-    if(keyPressed === 'KeyW'){player.vy = 0};
-    if(keyPressed === 'KeyS'){player.vy = 0};
-
-})
+class InputHandler{
+    constructor(game){
+        this.game = game;     //allows a class to access properties and methods in Game class
+        window.addEventListener("keydown",e => {
+           
+            if((e.key === 'd' || e.key === 'a'|| e.key === 'w') && this.game.keys.indexOf(e.key) === -1){ 
+                // -1 == e.key does not exist in Game keys
+                this.game.keys.push(e.key);   //add key to Game string[] key
+               
+            }
+            
+            console.log(this.game.keys);
+        });
+        window.addEventListener("keyup",e => {
+            if(this.game.keys.indexOf(e.key) > -1){
+                //if key is at index 0
+                this.game.keys.splice(this.game.keys.indexOf(e.key), 1)
+                //using splice, starting at index of pressed key in Game keys,
+                //remove next index ==> pressedKey in keyidx[0], unpressed 
+            }
+            console.log(this.game.keys);
+        });
+    }
+}

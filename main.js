@@ -6,7 +6,7 @@ var y = 0;
 var vx = 0;
 var vy = 0;
 var gravity = 50;
-
+/*
 const player = {
     wd:100,
     ht:100,
@@ -15,7 +15,7 @@ const player = {
     vx: 0,
     vy: 0
 }
-
+*/
 const platform = {
     wd:100,
     ht:100,
