@@ -80,14 +80,13 @@ window.addEventListener("load", function(){
             this.player = new Player(this);  //creating Game obj also creates Player obj with Game obj as arg
             this.keys = [];                  //tracks keys that are pressed down
             this.allPlatforms = [];         //tracks all platform objects created for collision logic
-            this.timer = 0;
-            this.interval = 2000;
+            this.jumpTimer = 0;
         }
         update(){
       
             
            // console.log(this.allPlatforms.length);
-            this.player.update();
+            
             this.allPlatforms.forEach(platform => {
                 if(this.checkCollision(this.player,platform))
                 {   
@@ -97,10 +96,12 @@ window.addEventListener("load", function(){
                 }
                 
                 
+                
             });
-            
+            this.player.update();
             console.log(this.player.xTileCoord + "," + this.player.yTileCoord);
             this.tilemap.update();
+            //console.log(this.player.jumpHeight + "IsonGround:" + this.player.isOnGround);
         }
         draw(context){
           
@@ -108,13 +109,34 @@ window.addEventListener("load", function(){
             this.tilemap.draw(context);
         }
         checkCollision(entity1,entity2){
-           
                 return (((entity1.xpos+entity1.width)>=entity2.xpos && entity1.xpos<=(entity2.xpos + entity2.width))
                     && ((entity1.ypos+entity1.height)>=entity2.ypos && entity1.ypos<=(entity2.ypos + entity2.height)))
         }
 
+    
         checkCollisionDirection(entity1,entity2){
-            if (entity1.xTileCoord - entity2.xTileCoord == 0)   
+            
+            if (entity2.yTileCoord - entity1.yTileCoord == 1 
+                && (entity1.xpos + entity1.width > entity2.xpos 
+                    && entity1.xpos < entity2.xpos + entity2.width))
+            {
+                entity1.vy = 0;
+                entity1.ypos = entity2.ypos - entity1.height;
+                entity1.isOnGround = true;
+                return entity1.isOnGround;
+            }else if (entity2.yTileCoord - entity1.yTileCoord == 1
+                && (entity1.xpos + entity1.width > entity2.xpos 
+                    && entity1.xpos < entity2.xpos + entity2.width)
+                    )
+            {   
+                entity1.ypos = entity2.ypos - entity2.height;
+                return "bottomSide";
+            }
+            
+            else if (entity1.xTileCoord - entity2.xTileCoord == 0
+                && (entity1.ypos + entity1.height > entity2.ypos 
+                    && entity2.ypos < entity2.ypos + entity2.height)
+                    && entity1.isOnGround)   
             //0 because collision happens when entity1 is inside entity2
             //therefore, because of Math.floor(), entity1.xTileCoord = entity2.xTileCoord when colliding
             {
@@ -122,34 +144,26 @@ window.addEventListener("load", function(){
                 entity1.xpos = entity2.xpos + entity2.width;
                 return "rightSide with tile " + entity2.xTileCoord + "," + entity2.yTileCoord;
             }
-            if (entity2.xTileCoord - entity1.xTileCoord == 1 && entity1.yTileCoord)
+            else if (entity2.xTileCoord - entity1.xTileCoord == 1
+                && (entity1.xpos + entity1.width > entity2.xpos 
+                    && entity1.xpos < entity2.xpos + entity2.width)
+                    && entity1.isOnGround)
             {
                 entity1.vx = 0;
                 entity1.xpos = entity2.xpos - entity1.width;
                 
                 return "leftSide with tile "  + entity2.xTileCoord + "," + entity2.yTileCoord;
             }
-           
-            
-            if (entity2.yTileCoord - entity1.yTileCoord == 1)
-            {
-                entity1.vy = 0;
-                entity1.ypos = entity2.ypos - entity1.height;
-                entity1.isOnGround = true;
-                return "OnGround";
-            }
-            if (entity1.yTileCoord - entity2.yTileCoord == 1)
-            {
-                return "bottomSide";
-            }
+            else entity1.isOnGround = false;
+    
         }
-
     }
 
     const game = new Game(canvas.width, canvas.height);
     let prevTime = 0;
     function animate(currTime){
         const deltaTime = currTime- prevTime;
+        this.jumpTimer += deltaTime;
         //console.log(deltaTime);
         lastTime = currTime;
         ctx.clearRect(0,0,canvas.width,canvas.height); 

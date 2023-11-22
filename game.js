@@ -11,10 +11,12 @@ class Player {
         this.maxSpeed = 10;
         this.xTileCoord = Math.floor(this.xpos/this.game.tilemap.tilesize);
         this.yTileCoord = Math.floor(this.ypos/this.game.tilemap.tilesize);
+        this.jumpHeight = 0;
+        this.isJumping = false;
         this.isOnGround = true;
-        this.isColliding = false;
+
     }
-    update(){
+    update(){ 
         if(this.game.keys.includes('d') && !this.isColliding){
             this.vx = this.maxSpeed
         }
@@ -22,41 +24,34 @@ class Player {
             this.vx = -this.maxSpeed
         } 
         else if(this.game.keys.includes('w') && this.isOnGround){
-        this.vy=-20;
+            this.isOnGround = false;
+            this.isJumping = true;
+            this.vy=-20;
+        }else this.vx = 0;
         
-        this.isOnGround = false;
-        this.isJumping();
-        
-
-        }else this.vx = 0
-
-        
-
-        if(!this.isOnGround) setTimeout(this.isFalling(),3000);
-
         this.xpos += this.vx;
-    
+        this.ypos += this.vy;
+        if(!this.isOnGround){this.jumpHeight += this.vy;}
 
+        if((!this.isOnGround && !this.isJumping)|| (this.isJumping && this.jumpHeight <= -this.game.tilemap.tilesize*3))
+        {
+            this.isFalling();
+        }
+        if(this.isOnGround){this.jumpHeight = 0;}
+        
+    
         this.xTileCoord = Math.floor(this.xpos/this.game.tilemap.tilesize);
         this.yTileCoord = Math.floor(this.ypos/this.game.tilemap.tilesize);
-        
-
     }
     draw(context){
         
         context.fillRect(this.xpos,this.ypos,this.width,this.height);
     }
-    isJumping(){
-        this.ypos += this.vy
-    }
     isFalling(){
-        this.vy = 0;
-        this.xpos += this.vy;
+        this.isJumping = false; 
+        this.vy = 20;
     }
-    checkCollision(bool){
-        if (bool = true){this.isColliding = true;}
-        else this.isColliding = false;
-    }
+
 }
 /*
 
@@ -107,11 +102,11 @@ class Tilemap {
                         1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
                         1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
                         1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-                        1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-                        1,0,0,0,0,0,0,0,1,1,1,0,0,0,0,1,
+                        1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,1,
+                        1,0,0,0,0,0,0,0,0,1,1,0,0,0,0,1,
                         1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,
-                        1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,
-                        1,0,1,1,1,1,1,0,0,0,0,0,0,0,0,1,
+                        1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+                        1,0,1,1,1,1,0,0,0,0,0,0,0,0,0,1,
                         1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
                         ]; 
     
