@@ -12,7 +12,7 @@ class InputHandler{
             console.log(this.game.keys);
         });
         window.addEventListener("keyup",e => {
-            if(this.game.keys.indexOf(e.key) > -1){
+            if((this.game.keys.indexOf(e.key)) > -1){
                 //if key is at index 0
                 this.game.keys.splice(this.game.keys.indexOf(e.key), 1)
                 //using splice, starting at index of pressed key in Game keys,

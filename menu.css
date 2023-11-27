@@ -1,0 +1,43 @@
+.screen{
+    position:absolute;
+    top:0;
+    bottom:0;
+    right:0;
+    left:0;
+    height: 675px;
+    width: 1200px;
+    
+    background-color:rgba(100,100,100,50%);
+}
+#canvas{
+    height: 675px;
+    width: 1200;
+    border: solid 3px black;
+}
+#start{
+    position: absolute;
+    left:600px;
+    top: 337.5px;
+    width: 300px;
+    height: 200px;
+}
+#level-container{
+    display:grid;
+    place-items: center;
+    position: relative;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 40px;
+    padding: 40px 30px 70px;
+    width: 300px;
+    height: 475px;
+    border-radius: 10px;
+    background: black;
+}
+div button{
+    position: relative;
+    width: 100%;
+    height: 150px;
+    margin: 10px 10px 10px 10px;
+    border-radius: 20px;
+}
