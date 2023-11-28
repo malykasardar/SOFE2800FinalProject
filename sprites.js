@@ -17,3 +17,10 @@ const playerSprite = new Image();
 playerSprite.src = 'backgroundLayers/player.png';
 const movingPlatformSprite = new Image();
 movingPlatformSprite.src = 'backgroundLayers/movingcloud.png';
+
+const glacialBackground = new Image();
+glacialBackground.src = 'Glacial-mountains-parallax-background_vnitti/Layers/background_glacial_mountains.png'
+glacialBackground.setAttribute("id","glacial");
+
+
+
