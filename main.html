@@ -20,7 +20,10 @@
                 <button id="level3" onclick=selectLevel(this.id)>Level 3</button>  
             </div>
         </div>
-        <canvas id="canvas" style="display:none"></canvas>
+        <div id="canvas-container">
+            <canvas id="canvas" style="display:none"></canvas>
+        </div>
+        
         <div id="game-win" style="display:none">
             <p>YOU WIN!</p>
             <button id="exit" onclick=returnToMenu()>Exit to Menu</button>
