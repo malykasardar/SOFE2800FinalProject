@@ -178,11 +178,9 @@ class Game{
                     gameWin();
                 }
             } else {
-                //this.player.isOnGround = false;
                 this.player.isJumping = false;
                 this.player.isColliding = false;
             }
-            console.log(this.player.isOnGround+","+this.player.isJumping+","+this.player.isColliding)
         });
     }
     draw(context){
