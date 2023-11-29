@@ -132,3 +132,68 @@ body {
     background-repeat: no-repeat;
     background-position: center center;
 }
+
+#game-win {
+    display:grid;
+    place-items: center;
+    position: relative;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 80px;
+    padding: 40px 100px 70px;
+    width: 500px;
+    height: 700px;
+    border-radius: 10px;
+    background: greenyellow;
+
+
+}
+
+p {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
+    width: 100%;
+    text-align: center;
+    font-weight: 300;
+    font-size: 4em; 
+    color: black; 
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
+    letter-spacing: 2px; 
+    margin-top: 80px;
+    margin-bottom: 10px; 
+    background-blend-mode: luminosity;
+
+}
+
+ #in-game-menu {
+   // padding: 10px 15px ;
+    //background-color: #ff2800;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+   
+    margin-left: 20px;
+    margin-bottom: 10px;
+    block-size: 35px;
+    font-size: 1.0em;
+    box-shadow: 5px 5px 7px rgba(0, 0, 0, 0.25),
+    inset 2px 2px 5px rgba(0, 0, 0, 0.5),
+    inset -3px -3px 5px rgba(0, 0, 0, 0.5);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
+    width: 100%;
+    text-align: center;
+    font-weight: 300;
+    font-size: 4em; 
+    color: white; 
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
+    letter-spacing: 2px; 
+    margin-top: 0px;
+    margin-bottom: 20px; 
+    background-blend-mode: luminosity;
+
+ }
+
+ #exit {
+    margin-top: 150px;
+ }
