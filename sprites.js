@@ -22,6 +22,7 @@ playerSprite.src = 'backgroundLayers/player-normal.png';
 const movingPlatformSprite = new Image();
 movingPlatformSprite.src = 'backgroundLayers/movingcloud.png';
 
+<<<<<<< HEAD
 const goalSprite = new Image();
 goalSprite.src = 'backgroundLayers/treasure.png';
 
@@ -90,3 +91,11 @@ const tilemap_level3 =
     1,0,0,0,1,0,1,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
 ];    
+=======
+const glacialBackground = new Image();
+glacialBackground.src = 'Glacial-mountains-parallax-background_vnitti/Layers/background_glacial_mountains.png'
+glacialBackground.setAttribute("id","glacial");
+
+
+
+>>>>>>> 9e84e7b24e34b5ed145a7a3f0ebdf66469de7677

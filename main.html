@@ -7,18 +7,20 @@
         <link rel="stylesheet" href="menu.css">
         <title>Movement Controls</title>
     </head>
-    <body>
+    <body id="main-body">
         <div></div>
         <div id="main-menu" class="screen" style="display:none">
-            <button id="start" onclick=startGame()>Start Game</button>
+            <button id="start" onclick="startGame()">Start Game</button>
         </div>
         <div id="level-menu" class="screen" style="display:block">
             <div id="level-container">
+                <h1>Game Menu</h1>
                 <button id="level1" onclick=selectLevel(this.id)>Level 1</button>
                 <button id="level2" onclick=selectLevel(this.id)>Level 2</button>
                 <button id="level3" onclick=selectLevel(this.id)>Level 3</button>  
             </div>
         </div>
+<<<<<<< HEAD
         <canvas id="canvas" style="display:none"></canvas>
         <div id="game-win" style="display:none">
             <p>YOU WIN!</p>
@@ -27,6 +29,14 @@
         <div id="in-game-menu" style="display:none"> 
             <button id="exit" onclick=returnToMenu()>Exit to Menu</button>
         </div>
+=======
+        <div id="canvas-container">
+            <canvas id="canvas" ></canvas>
+        </div>
+        
+        
+        
+>>>>>>> 9e84e7b24e34b5ed145a7a3f0ebdf66469de7677
     </body>
     
     <script src="display.js"></script>

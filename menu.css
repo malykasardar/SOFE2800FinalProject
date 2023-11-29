@@ -4,16 +4,37 @@
     bottom:0;
     right:0;
     left:0;
-    height: 675px;
-    width: 1200px;
+    
+    
     
     background-color:rgba(100,100,100,50%);
+    background-image: url('Glacial-mountains-parallax-background_vnitti/background_glacial_mountains.png');
+    background-size:     cover;                      /* <------ */
+    background-repeat:   no-repeat;
+    background-position: center center;
+
 }
+h1{
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
+    width: 100%;
+    text-align: center;
+    font-weight: 300;
+    font-size: 3em; 
+    color: black; 
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
+    letter-spacing: 2px; 
+    margin-top: 0px;
+    margin-bottom: 20px; 
+    background-blend-mode: luminosity;
+}
+
+
 #canvas{
 
     height: 675px;
     width: 1200;
     border: solid 3px black;
+    
 }
 #start{
     position: absolute;
@@ -23,6 +44,7 @@
     height: 200px;
 }
 #level-container{
+
     display:grid;
     place-items: center;
     position: relative;
@@ -31,9 +53,9 @@
     margin-top: 40px;
     padding: 40px 30px 70px;
     width: 300px;
-    height: 475px;
+    height: 550px;
     border-radius: 10px;
-    background: black;
+    background: greenyellow;
 }
 div button{
     position: relative;
@@ -41,4 +63,69 @@ div button{
     height: 150px;
     margin: 10px 10px 10px 10px;
     border-radius: 20px;
+    background-color:rgba(100,100,100,50%);
+}
+
+button {
+    padding: 10px 15px ;
+    background-color: #ff2800;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+   
+    margin-left: 20px;
+    margin-bottom: 10px;
+    block-size: 35px;
+    font-size: 1.0em;
+    box-shadow: 5px 5px 7px rgba(0, 0, 0, 0.25),
+    inset 2px 2px 5px rgba(0, 0, 0, 0.5),
+    inset -3px -3px 5px rgba(0, 0, 0, 0.5);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
+    width: 100%;
+    text-align: center;
+    font-weight: 300;
+    font-size: 2em; 
+    color: white; 
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
+    letter-spacing: 2px; 
+    margin-top: 0px;
+    margin-bottom: 20px; 
+    background-blend-mode: luminosity;
+
+}
+button:hover  {
+    //background-color: #570d77;
+}
+
+
+
+body {
+    transition: background-image 0.5s ease-in-out;
+    background-image: url('Glacial-mountains-parallax-background_vnitti/background_glacial_mountains.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+#level1:hover {
+    background-image: url('Glacial-mountains-parallax-background_vnitti/background_glacial_mountains.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+#level2:hover {
+    background-image: url('Sunset/expanded.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+#level3:hover {
+    background-image: url('Haunted-forest/forest.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
 }
