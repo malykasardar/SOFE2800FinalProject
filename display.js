@@ -3,35 +3,15 @@ const ctx = canvas.getContext("2d");
 const gameSpeed = .7;
 
 class Tilemap{
-    constructor(game){
+    constructor(game, levelTileMap){
         this.game = game;
-        this.platform = new Platform();
-        this.spike = new Spike();
+        this.platform = null;
+        this.spike = null;
+        this.goal = null;
         this.rows = this.game.tileMapRow;
         this.cols = this.game.tileMapCol;
         this.tilesize = this.game.tileSize;
-        this.platform.width = this.tilesize;
-        this.platform.height = this.tilesize;
-        this.tilemap = [
-                        1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-                        1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-                        1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-                        1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-                        1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-                        1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-                        1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-                        1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-                        1,0,0,0,0,1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-                        1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-                        1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-                        1,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-                        1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-                        1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-                        1,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-                        1,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-                        1,0,0,0,1,0,1,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-                        1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-                        ]; 
+        this.tilemap = levelTileMap;
     }
     getTileValue(row,col){
         return this.tilemap[row*this.cols + col]
@@ -49,6 +29,11 @@ class Tilemap{
                         this.game.allPlatforms.push(this.spike);
                         this.spike.draw(context);
                     }  
+                    if ( this.getTileValue(i,j) === 3)  {
+                        this.goal = new Goal(this.tilesize*j, this.tilesize*i,this.tilesize,this.tilesize,goalSprite);
+                        this.game.allPlatforms.push(this.goal);
+                        this.goal.draw(context);
+                    } 
             }
         }
     }
@@ -56,9 +41,9 @@ class Tilemap{
         this.game.allPlatforms.forEach(platform =>{
             if(!(platform instanceof MovingPlatform))
            this.game.allPlatforms.splice(this.game.allPlatforms.indexOf(platform),1);
-        })
-        //this.game.allPlatforms = [];
+        })//this.game.allPlatforms = [];
     }
+
 }
 class Layer {
     constructor(image, speedModifier){
@@ -76,14 +61,12 @@ class Layer {
             this.x = 0;
         }
         this.x = (this.x - this.speed);
-        
     }
     draw(context){
         context.drawImage(this.image, this.x, this.y, this.width, this.height);
         context.drawImage(this.image, this.x + this.width, this.y, this.width, this.height);
     }
 }
-
 function toggleScreen(id, toggle){
     let element = document.getElementById(id);
     let display = ( toggle )? 'block':'none';
@@ -91,18 +74,31 @@ function toggleScreen(id, toggle){
 }
 
 function selectLevel(id){
-    if(id=="level1"){startGame()}
-    if(id=="level2"){alert("level2")}
-    if(id=="level3"){startGame()}
+    if(id=="level1"){startGame(tilemap_level1);}
+    if(id=="level2"){startGame(tilemap_level2);}
+    if(id=="level3"){startGame(tilemap_level3);}
 }
 function prepareGameCanvas(){
     this.toggleScreen('level-menu',false);
     this.toggleScreen('canvas', true);
+    this.toggleScreen('in-game-menu', true);
     canvas.width = 1200;
     canvas.height = 675;
 }
- 
-function startGame(){
+function returnToMenu(){
+    game = null;
+    this.toggleScreen("game-win",false);
+    this.toggleScreen('level-menu',true);
+    this.toggleScreen('canvas', false);
+    this.toggleScreen('in-game-menu', false);
+}
+function gameWin(context){
+    this.toggleScreen("game-win",true);
+    this.toggleScreen('level-menu',false);
+    this.toggleScreen('canvas', false);
+    this.toggleScreen('in-game-menu', false);
+}
+function startGame(levelTileMap){
 
     prepareGameCanvas();
 
@@ -114,7 +110,7 @@ function startGame(){
 
     const gameObjects = [layer1, layer2, layer3, layer4, layer5];
 
-    const game = new Game(canvas.width, canvas.height, 18,32);
+    game = new Game(canvas.width, canvas.height, 18,32, levelTileMap);
 
     let movingPlatform1 = new MovingPlatform(game,game.tileSize*16,game.tileSize*8,200,30,movingPlatformSprite,'X',2.0);
     let movingPlatform2 = new MovingPlatform(game,game.tileSize*25,game.tileSize*10,200,30,movingPlatformSprite,'Y',2.0);

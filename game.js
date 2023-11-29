@@ -13,7 +13,7 @@ class Entity{
     }
 }
 class Player extends Entity{
-    constructor(game, xpos,ypos, width, height,image){
+    constructor(game, xpos,ypos, width, height, image){
         super(game, xpos, ypos, width, height, image);
         this.ox = 0;
         this.oy = 0;
@@ -59,7 +59,8 @@ class Player extends Entity{
         if((!this.isOnGround && !this.isJumping)|| (this.isJumping && this.jumpHeight <= -this.game.tilemap.tilesize*5))
         {   
             this.isOnGround = false;
-            this.isJumping = false;
+            this.isJumping = false
+            this.isFalling();
         }
         if(this.isOnGround){this.jumpHeight = 0;}
         if(this.isJumping){this.jump;}
@@ -70,7 +71,6 @@ class Player extends Entity{
         context.drawImage(this.image,this.xpos,this.ypos,this.width,this.height);
     }
     isFalling(){
-        this.isJumping = false; 
         if(this.vy<=this.maxSpeed*1.5)
         {
             this.vy += 2;
@@ -97,6 +97,14 @@ class Spike extends Entity{
     constructor(xpos,ypos,width,height,image){ 
         super(null,xpos,ypos,width,height,image);
         this.isLethal = true;
+    }
+    draw(context){
+        context.drawImage(this.image,this.xpos,this.ypos,this.width,this.height)
+    }
+}
+class Goal extends Entity{
+    constructor(xpos,ypos,width,height,image){
+        super(null,xpos,ypos,width,height,image);
     }
     draw(context){
         context.drawImage(this.image,this.xpos,this.ypos,this.width,this.height)
@@ -147,14 +155,14 @@ class MovingPlatform extends Entity{
     }
 }
 class Game{
-    constructor(width,height,rows,cols,tilemap){
+    constructor(width,height,rows,cols,levelTileMap){
         this.width = width;
         this.height = height;
         this.tileMapCol = cols;
         this.tileMapRow = rows;
         this.tileSize = width/cols;
         this.input = new InputHandler(this);
-        this.tilemap = new Tilemap(this,tilemap);
+        this.tilemap = new Tilemap(this,levelTileMap);
         this.player = new Player(this,200,200,37.5,37.5,playerSprite);  //creating Game obj also creates Player obj with Game obj as arg
         this.keys = [];                  //tracks keys that are pressed down
         this.allPlatforms = [];         //tracks all platform objects created for collision logic
@@ -168,25 +176,26 @@ class Game{
             movingPlatform.update();
         });
         this.allPlatforms.forEach(platform => {
-            
+        
             if(this.checkCollision(this.player,platform))
             {   
                 if(platform instanceof Platform){
-                let direction = this.resolveTileMapCollision(this.player,platform)
-                console.log("Collision detected: " + direction);
+                    this.resolveTileMapCollision(this.player,platform)
                 }
                 if(platform instanceof MovingPlatform){
-                    let direction = this.resolveMovingCollision(this.player,platform)
-                    console.log("movingCollision detected: " + direction);
+                    this.resolveMovingCollision(this.player,platform)
                 }
-                if (platform.isLethal){
+                if (platform instanceof Spike){
                     alert("you died");
                     this.player.respawn();
                 }  
+                if (platform instanceof Goal){
+                    gameWin(ctx);
+                }
             } else {
-                if(!this.player.isJumping) this.player.isFalling();
+                if((!this.player.isJumping && !this.player.isOnGround) || !this.player.isColliding) this.player.isFalling();  
             }
-            console.log(this.player.isOnMovingPlatform)
+            console.log(this.player.isOnGround+","+this.player.isJumping+","+this.player.isColliding)
         });
         this.tilemap.update();
     }
@@ -220,9 +229,7 @@ class Game{
         }
     }
     resolveTileMapCollision(entity1,entity2){
-        if (entity2.yTileCoord - entity1.yTileCoord == 1 
-            && (entity1.xpos + entity1.width > entity2.xpos 
-                && entity1.xpos < entity2.xpos + entity2.width))
+        if (entity2.yTileCoord - entity1.yTileCoord == 1 )
         {   
             entity1.vy = 0;
             entity1.ypos = entity2.ypos - entity1.height-1;
@@ -256,6 +263,7 @@ class Game{
         }
         else 
         {
+            entity1.isOnGround = false;
             entity1.isJumping = false;
             entity1.isColliding = false;
         }
