@@ -22,17 +22,14 @@ class Tilemap{
                     if ( this.getTileValue(i,j) === 1){
                         this.platform = new Platform(this.tilesize*j, this.tilesize*i,this.tilesize,this.tilesize,platformSprite);
                         this.game.nonPlayerEntities.push(this.platform);
-                        //this.platform.draw(context);
                     }
                     if ( this.getTileValue(i,j) === 2)  {
                         this.spike = new Spike(this.tilesize*j, this.tilesize*i,this.tilesize,this.tilesize,spikeSprite);
                         this.game.nonPlayerEntities.push(this.spike);
-                        //this.spike.draw(context);
                     }  
                     if ( this.getTileValue(i,j) === 3)  {
                         this.goal = new Goal(this.tilesize*j, this.tilesize*i,this.tilesize,this.tilesize,goalSprite);
                         this.game.nonPlayerEntities.push(this.goal);
-                        //this.goal.draw(context);
                     } 
             }
         }
@@ -121,7 +118,6 @@ function gameWin(){
 function startGame(levelConfig){
 
     prepareGameCanvas();
-
     game = new Game(levelConfig);
     game.background.addLayers();
     game.tilemap.addPlatforms();
@@ -136,14 +132,7 @@ function startGame(levelConfig){
         let movingPlatform2 = new MovingPlatform(game,game.tileSize*26,game.tileSize*3,200,30,movingPlatformSprite,'Y',2.0,600);
         movingPlatform1.addPlatform();
         movingPlatform2.addPlatform();
-    }/*
-    if(levelConfig.level == 3){
-        let movingPlatform1 = new MovingPlatform(game,game.tileSize*16,game.tileSize*8,200,30,movingPlatformSprite,'X',2.0,300);
-        let movingPlatform2 = new MovingPlatform(game,game.tileSize*25,game.tileSize*10,200,30,movingPlatformSprite,'Y',2.0,300);
-        movingPlatform1.addPlatform();
-        movingPlatform2.addPlatform();
-    }*/
-
+    }
     function animate(){
         if(game != null){
         ctx.clearRect(0,0,canvas.width,canvas.height); 
@@ -153,6 +142,6 @@ function startGame(levelConfig){
         requestAnimationFrame(animate) //tell browser to execute arg before next repaint
         }
     }
-
     animate(0);
+
 }
